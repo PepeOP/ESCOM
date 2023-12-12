@@ -65,17 +65,33 @@ fetch('../json/DailyForecast_MX.json')
     };
 
     // Mostrar enlace "anterior"
-    const prevLink = createPageLink(page - 1, false);
-    paginator.appendChild(prevLink);
+    if(page != 1) {
+        const prevLink = createPageLink(page - 1, false);
+        paginator.appendChild(prevLink);
+    }
+
 
     // Mostrar enlaces de páginas
-    for (let i = 1; i <= pageCount; i++) {
+    for (let i = page - 5; i <= page + 5; i++) {
+        if(i > pageCount) break;
+        if([-4,-3,-2,-1,0].includes(i)) continue;
         paginator.appendChild(createPageLink(i, i === page));
     }
 
-    // Mostrar enlace "siguiente"
-    const nextLink = createPageLink(page + 1, false);
-    paginator.appendChild(nextLink); 
+
+        console.log(pageCount, "pagecount")
+    if( page != pageCount) {
+        // Mostrar enlace "siguiente"
+        const nextLink = createPageLink(page + 1, false);
+        paginator.appendChild(nextLink);
+    }
+
+        window.addEventListener('scroll', () => {
+            let scrollPosition = window.scrollY; // Posición vertical del scrollbar
+            console.log("Posición del Scroll: " + scrollPosition);
+
+        });
+
 
     
   
