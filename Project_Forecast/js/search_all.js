@@ -1,4 +1,10 @@
 
+const url = location.search;
+const queryParams = new URLSearchParams(url);
+
+
+fetch('api.google.com/clima?api_kley=2217e4eae8fc46648da47576e4c4db99')
+
 fetch('../json/DailyForecast_MX.json')
       .then(response => response.json())
       .then(data => {
@@ -19,6 +25,9 @@ fetch('../json/DailyForecast_MX.json')
         });
         stateFilterSelect.formSelect();
 
+        document.getElementById('stateFilter').value = queryParams.get('state');
+        M.FormSelect.init(document.getElementById('stateFilter'));
+
         const DescielsSelect = $('#descielFilter');
         uniqueDesciels.forEach(ciel => {
             DescielsSelect.append(`<option value="${ciel}">${ciel}</option>`);
@@ -27,9 +36,16 @@ fetch('../json/DailyForecast_MX.json')
 
         const DlocSelect = $('#dateFilter');
         uniqueDates.forEach(fecha => {
-            DlocSelect.append(`<option value="${fecha}">${fecha}</option>`);
+            const year = fecha.substring(0, 4);
+            const month = fecha.substring(4, 6);
+            const day = fecha.substring(6, 8);
+
+            DlocSelect.append(`<option value="${fecha}">${year}/${month}/${day}</option>`);
         });
         DlocSelect.formSelect();
+
+        document.getElementById('dateFilter').value = queryParams.get('date');
+        M.FormSelect.init(document.getElementById('dateFilter'));
 
         // Función para actualizar las opciones del select de municipios
         window.updateMunicipalityOptions = function () {
@@ -46,11 +62,24 @@ fetch('../json/DailyForecast_MX.json')
           municipalityFilterSelect.formSelect();
         };
 
+          updateMunicipalityOptions()
+
         window.applyFilter = ()=> {
             let selectedState = $('#stateFilter').val();
             let selectedMunicipality = $('#municipalityFilter').val();
             let selectedDesciel = $('#descielFilter').val();
             let selectedDate = $('#dateFilter').val();
+
+            queryParams.set('state', selectedState)
+            queryParams.set('municipality', selectedMunicipality)
+            queryParams.set('description', selectedDesciel)
+            queryParams.set('date', selectedDate)
+
+            const url = new URL(window.location.href);
+            url.search = queryParams.toString();
+
+            history.pushState({}, '', url);
+
 
             // Filtrar por estado y municipio
             if (selectedState && selectedMunicipality && selectedDesciel && selectedDate) {
@@ -138,6 +167,8 @@ fetch('../json/DailyForecast_MX.json')
                  }
              
           }
+          applyFilter()
+
 
         function renderWeatherCards() {
           const element = document.getElementById('weather-cards');
@@ -155,7 +186,7 @@ fetch('../json/DailyForecast_MX.json')
             const card = `
               <div class="col s12 m6 l4">
               <div class="card card large">
-              <div class="card-image"></div>
+              <div class="card-image"><img src="/images/card_images/${item.nes.toLowerCase()}.webp" alt=""></div>
               <div class="card-text">
                 <span class="date">${year}/${month}/${day}</span>
                 <h2>${item.nmun}</h2>
