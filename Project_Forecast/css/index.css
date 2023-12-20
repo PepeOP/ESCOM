@@ -1,0 +1,25 @@
+.overlay-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .overlay-text {
+    position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      text-align: center;
+  }
+  #headerColor {
+    background: rgb(255,0,0);
+    background: linear-gradient(90deg, rgba(255,0,0,0.896796218487395) 10%, rgba(255,128,0,0.908000700280112) 90%);
+}
+#other{
+    background: rgb(76,175,80);
+    background: linear-gradient(90deg, rgba(76,175,80,1) 0%, rgba(0,255,42,0.908000700280112) 100%);
+}
+.menuColor {
+  background: rgb(76,175,80);
+    background: linear-gradient(90deg, rgba(76,175,80,1) 0%, rgba(0,255,42,0.908000700280112) 100%);
+}
