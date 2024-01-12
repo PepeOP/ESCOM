@@ -11,34 +11,72 @@
     
     <script src="./fontawesome-free-6.4.2-web/js/all.min.js"></script>
     <script src="./materialize/js/materialize.min.js"></script>
+    <script src="./js/just-validate.production.min.js"></script>
     <script type="module" src="./js/index.js"></script>
-    <title>Inicio</title>
+    <title>DMP</title>
 </head>
 
 
 <header>
-    <nav class="nav-extended font hide-on-small-only">
+      <nav class="nav-extended font hide-on-small-only">
         <div class="nav-wrapper">
-          <a href="./index.html" class="brand-logo center">Instituto Politécnico Nacional</a>
+            <a href="/" class="brand-logo center">Instituto Politécnico Nacional</a>
         </div>
         <div class="nav-content">
-          <ul class="tabs tabs-transparent">
-            <li class="tab"><a href="./index.html">Inicio</a></li>
-            <li class="tab"><a class="./registro.html" href="#test2">Pre-regitro</a></li>
-          </ul>
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="/">Inicio</a></li>
+                <li class="tab"><a class="modal-trigger" href="#modal1">Login</a></li>
+                <li class="tab"><a class="modal-trigger" href="#modal2">Pre-registro</a></li>
+            </ul>
         </div>
-    </nav>
+      </nav>
+
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+          <h4>Login</h4>
+          <form action="index.php" method="post">
+              <input type="hidden" name="action" value="login">
+              <div class="input-field">
+                  <input id="curp_login" name="curp_login" type="text" class="validate">
+                  <label for="curp_login">CURP</label>
+              </div>
+              <div class="input-field">
+                  <input id="password_login" name="password_login" type="password" class="validate">
+                  <label for="password_login">Contraseña</label>
+              </div>
+              <button class="btn waves-effect waves-light" type="submit">Ingresar</button>
+          </form>
+      </div>
+    </div>
+
+    <div id="modal2" class="modal">
+      <div class="modal-content">
+          <h4>Preregistrase</h4>
+          <form action="index.php" method="post">
+              <input type="hidden" name="action" value="register">
+              <div class="input-field">
+                  <input id="curp_register" name="curp_register" type="text" class="validate">
+                  <label for="curp_register">CURP</label>
+              </div>
+              <div class="input-field">
+                  <input id="password_register" name="password_register" type="password" class="validate">
+                  <label for="password_register">Ingresa tu nueva contraseña</label>
+              </div>
+              <button class="btn waves-effect waves-light" type="submit">Preregistrarse</button>
+          </form>
+      </div>
+    </div>
 
     <nav class="nav-extended font hide-on-med-and-up">
-        <div class="nav-wrapper">
+      <div class="nav-wrapper">
           <a href="./index.html" class="brand-logo center">IPN</a>
-        </div>
-        <div class="nav-content">
+      </div>
+      <div class="nav-content">
           <ul class="tabs tabs-transparent">
-            <li class="tab"><a href="./index.html">Inicio</a></li>
-            <li class="tab"><a class="./registro.html" href="#test2">Pre-regitro</a></li>
+              <li class="tab"><a href="/">Inicio</a></li>
+              <li class="tab"><a href="#test2">Pre-regitro</a></li>
           </ul>
-        </div>
+      </div>
     </nav>
 
 </header>
