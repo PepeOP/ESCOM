@@ -24,7 +24,11 @@ switch ($page) {
         $docentes = $mysqlConnection->query("SELECT * FROM docentes");
 
         $distinciones = $mysqlConnection->query("SELECT distincion FROM distinciones");
+        $distinciones1 = $mysqlConnection->query("SELECT distincion FROM distinciones");
         $dependencias = $mysqlConnection->query("SELECT dependencia FROM dependencias");
+        $dependencias1 = $mysqlConnection->query("SELECT dependencia FROM dependencias");
+
+        $asistencias = $mysqlConnection->query("SELECT * FROM invitaciones WHERE accepted = true");
 
         include 'views/superadminView.php';
         break;

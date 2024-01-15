@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.fixed-action-btn');
     var instances = M.FloatingActionButton.init(elems, {
@@ -176,4 +177,147 @@ async function cerrarSesion(event) {
         localStorage.removeItem('token');
     }
     window.location.href = "/proyectoPEPE/";
+}
+
+document.getElementById('invitacionSubmit').addEventListener('click', invitacionSubmit);
+
+async function invitacionSubmit(event) {
+    event.preventDefault();
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    const confirmacion_si = document.getElementById("confirmacion_si").checked;
+    const llevarInvitado_si = document.getElementById("llevarInvitado_si").checked;
+    const discapacidad_si = document.getElementById("discapacidad_si").checked;
+    const disability_reason = document.getElementById("disability_reason").value;
+
+    const confirmacion = confirmacion_si === true;
+    const invitado = llevarInvitado_si === true;
+    const discapacidad = discapacidad_si === true;
+
+    const data = {
+        "action": "acceptInvitation",
+        "token": token,
+        "accepted": confirmacion,
+        "guests": invitado,
+        "disability": discapacidad,
+        "disability_reason": disability_reason
+    }
+
+    console.log(data);
+
+    if (token) {
+        const response = await fetch('http://localhost/proyectoPEPE/api.php', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        console.log(result);
+
+        if (result.data ) {
+
+            const adminPremios = [];
+            const docentesPremios = [];
+
+            result.data.administrativos.forEach( (item) => {
+                adminPremios.push(
+                    { text: item.nombre, style: 'header' },
+                    { text: item.dependencia, style: 'anotherStyle' },
+                    { text: item.distincion },
+                );
+            });
+
+            result.data.docentes.forEach( (item) => {
+                docentesPremios.push(
+                    { text: item.nombre },
+                    { text: item.dependencia },
+                    { text: item.distincion },
+                );
+            });
+
+            console.log(adminPremios);
+            console.log(docentesPremios);
+
+            if(result.data.guests) { // si tiene invitados
+                var docDefinition = {
+                    content: [
+                        { text: 'This is a header', style: 'header' },
+                        'No styling here, this is a standard paragraph',
+                        { text: `${result.data.curp}`, style: 'anotherStyle' },
+                        ...adminPremios,
+                        ...docentesPremios,
+                        { text: 'Multiple styles applied', style: [ 'header', 'anotherStyle' ] },
+                        { text: '', pageBreak: 'after' },
+                        { text: 'Another text page 2', style: 'anotherStyle' },
+                    ],
+
+                    styles: {
+                        header: {
+                            fontSize: 22,
+                            bold: true
+                        },
+                        anotherStyle: {
+                            italics: true,
+                            alignment: 'right'
+                        }
+                    }
+                };
+            } else { // no tiene
+                var docDefinition = {
+                    content: [
+                        { text: 'This is a header', style: 'header' },
+                        'No styling here, this is a standard paragraph',
+                        { text: `${result.data.curp}`, style: 'anotherStyle' },
+                        ...adminPremios,
+                        ...docentesPremios,
+                        { text: 'Multiple styles applied', style: [ 'header', 'anotherStyle' ] },
+                        { text: 'Another text page 2', style: 'anotherStyle' },
+                    ],
+
+                    styles: {
+                        header: {
+                            fontSize: 22,
+                            bold: true
+                        },
+                        anotherStyle: {
+                            italics: true,
+                            alignment: 'right'
+                        }
+                    }
+                };
+            }
+
+            pdfMake.createPdf(docDefinition).download(`invitacion-${result.data.curp}.pdf`);
+
+
+            Swal.fire({
+                title: 'Invitacion aceptada correctamente',
+                text: result.data.message,
+                icon: 'success',
+                didDestroy: () => {
+                    window.location.reload();
+                }
+            });
+            return
+        }
+
+        if (result.error) {
+            return Swal.fire({
+                title: 'Ocurrio un error al generar las invitaciones',
+                text: result.error,
+                icon: 'error'
+            });
+        }
+
+
+        return Swal.fire({
+            title: 'Ocurrio un error en el servidor',
+            text: "Un error ha ocurrido en el servidor.",
+            icon: 'warning'
+        });
+
+    }
+    window.location.href = "/proyectoPEPE/";
+
 }

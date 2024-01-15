@@ -28,7 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode($result);
                 break;
             case 'addNewUser':
-                $userController->addNewUser($data);
+                $result = $userController->addNewUser($data);
+                echo json_encode($result);
+                break;
+            case 'deleteUser':
+                $result = $userController->deleteUser($data);
+                echo json_encode($result);
+                break;
+            case 'editUser':
+                $result = $userController->editUser($data);
+                echo json_encode($result);
                 break;
             case 'logout':
                 $result = $userController->logout($data);
@@ -38,8 +47,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $result = $userController->validateToken($data);
                 echo json_encode($result);
                 break;
+            case 'validateTokenAdmin':
+                $result = $userController->validateTokenAdmin($data);
+                echo json_encode($result);
+                break;
             case 'getUserData':
                 $result = $userController->getUserData($data);
+                echo json_encode($result);
+                break;
+            case 'acceptInvitation':
+                $result = $userController->acceptInvitation($data);
                 echo json_encode($result);
                 break;
             // Puedes añadir más casos aquí

@@ -10,12 +10,18 @@
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/user.css">
 
+
     <script src="public/js/jquery-3.7.1.min.js"></script>
     <script src="public/materialize/js/materialize.min.js"></script>
     <script src="public/js/just-validate.production.min.js"></script>
     <script src="public/fontawesome-free-6.4.2-web/js/all.min.js"></script>
     <script src="public/materialize/js/materialize.min.js"></script>
+    <script src="public/js/sweetalert_min.js"></script>
+    <script src="public/js/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
     <script type="module" src="public/js/user.js"></script>
+
     <title>DMP</title>
 </head>
 <header>
@@ -109,13 +115,18 @@
                     </label>
                 </p>
 
+                <div class="input-field col s6">
+                    <input placeholder="Razon de tu discapacidad" id="disability_reason" name="disability_reason" type="text" class="validate">
+                    <label for="disability_reason">Cual es tu discapacidad?</label>
+                </div>
+
                 <p>
                     <label>
                         <input id="discapacidad_no" name="discapacidad" type="radio" value="no" class="with-gap" required>
                         <span class="white-text">No, no tengo discapacidad</span>
                     </label>
                 </p>
-                <button class="btn waves-effect waves-light font" type="submit">Generar Invitación</button>
+                <button id="invitacionSubmit" class="btn waves-effect waves-light font" type="submit">Generar Invitación</button>
             </form>
         </div>
     </div>
